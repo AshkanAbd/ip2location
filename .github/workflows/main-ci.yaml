@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 env:
-  image: ghcr.io/${{ github.repository }}:${{ github.run_number }}
+  image: ghcr.io/ashkanabd/ip2location:${{ github.run_number }}
 
 jobs:
   build:
