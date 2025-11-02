@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "ip_location.fullname" . }}-servicemonitor
+  labels:
+    app.kubernetes.io/name: {{ include "ip_location.name" . }}
+    release: {{ .Values.metrics.releaseLabel | default "prometheus-operator" }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "ip_location.name" . }}
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  endpoints:
+    - port: {{ .Values.metrics.port | default "http" }}
+      path: {{ .Values.metrics.path | default "/metrics" }}
+      interval: {{ .Values.metrics.interval | default "15s" }}
+      scrapeTimeout: {{ .Values.metrics.scrapeTimeout | default "10s" }}
