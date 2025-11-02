@@ -7,10 +7,24 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
     steps:
       - uses: actions/checkout@v4
 
       - name: Build image
         run: |
-          docker build . -f Dockerfile -t iplocation:${{github.run_number}} --no-cache
+          docker build . -f Dockerfile -t ${{ github.repository }}:${{github.run_number}} --no-cache
           echo "Image built successfully"
+
+      - name: Registry Login
+        uses: docker/login-action@v3.3.0
+        with:
+          registry: https://ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          logout: true
+
+      - name: Push to registry
+        run: docker push ${{ github.repository }}:${{github.run_number}}  
+
