@@ -1,0 +1,15 @@
+name: IPLocation CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: |
+          docker build . -f Dockerfile -t iplocation:${{github.run_number}} --no-cache
+          echo "Image built successfully"
