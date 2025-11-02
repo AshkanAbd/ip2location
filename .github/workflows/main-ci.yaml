@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 env:
-  image: ghcr.io/${{ github.repository }}:${{github.run_number}}
+  image: ghcr.io/${{ github.repository }}:${{ github.run_number }}
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
 
       - name: Build image
         run: |
-          docker build . -f Dockerfile -t ${{ image }} --no-cache
+          docker build . -f Dockerfile -t $image --no-cache
           echo "Image built successfully"
 
       - name: Registry Login
@@ -29,5 +29,5 @@ jobs:
           logout: true
 
       - name: Push to registry
-        run: docker push ${{ image }}
+        run: docker push $image
 
