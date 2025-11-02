@@ -9,12 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       packages: write
+    env:
+      image: ghcr.io/${{ github.repository }}:${{github.run_number}}
     steps:
       - uses: actions/checkout@v4
 
       - name: Build image
         run: |
-          docker build . -f Dockerfile -t ${{ github.repository }}:${{github.run_number}} --no-cache
+          docker build . -f Dockerfile -t ${{ image }} --no-cache
           echo "Image built successfully"
 
       - name: Registry Login
@@ -26,5 +28,5 @@ jobs:
           logout: true
 
       - name: Push to registry
-        run: docker push ${{ github.repository }}:${{github.run_number}}  
+        run: docker push ${{ image }}
 
