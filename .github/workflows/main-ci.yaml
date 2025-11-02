@@ -4,13 +4,14 @@ on:
   push:
     branches: [ "main" ]
 
+env:
+  image: ghcr.io/${{ github.repository }}:${{github.run_number}}
+
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
       packages: write
-    env:
-      image: ghcr.io/${{ github.repository }}:${{github.run_number}}
     steps:
       - uses: actions/checkout@v4
 
